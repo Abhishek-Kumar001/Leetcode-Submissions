@@ -20,14 +20,12 @@ class Solution {
                 }
             }
               swap(nums,j,i);
-            int l=0;
               for(i=k+1;i<nums.length-1;i++){
                   for(int m=i+1;m<nums.length;m++){
                       if(nums[i]>nums[m])
                         swap(nums,i,m);
                 
                   }
-                
                }
         }
       
