@@ -10,8 +10,7 @@
  */
 class Solution {
     public void reorderList(ListNode head) {
-                  //SAME CODE ONLY ADDING MORE COMMENTS FOR UNDERSTINDING     
-        //counting no of nodes
+              //counting no of nodes
         ListNode temp=head;
         int count=0;
         while(temp != null){
@@ -29,16 +28,18 @@ class Solution {
         }
         //now swap the only nodes not data a/c to given ordar(IN QUESTION)
         temp=head;
-        //mannage 1st 2 nodes  b/c they were not comming fit in our formula of for loop
-        temp.next=al.get(count-1);
-        temp=temp.next;
-        //after managing 1st 2 nodes 
-        for(int i=1;i<count/2; i++){ 
-           temp.next=al.get(i);
-            temp.next.next=al.get(count-1-i);
-            temp=temp.next.next;  
+
+        for(int i=0;i<count/2; i++){ 
+           temp.next=al.get(count-1-i);
+            if(i != (count/2) - 1){
+               temp.next.next=al.get(i + 1);
+               temp=temp.next.next;   
+            }
+            else{
+               temp= temp.next;
+            }
         }
-        //managing last node  
+       //managing last node  
         //if no of nodes is even the add middle node 1st in the ll then point last node to null
         if(count%2 ==1){
             temp.next=al.get(count/2);
@@ -46,6 +47,6 @@ class Solution {
         }
         else{       //if no of ll is even only set last node to null
             temp.next=null;
-        }
+        }    
     }
 }
