@@ -1,24 +1,30 @@
 class Solution {
     public int[][] merge(int[][] intervals) {
-        Arrays.sort(intervals,(a,b )  -> a[0] - b[0]);
+        //VVI
+        Arrays.sort(intervals,(a,b )  -> a[0] - b[0]); // humne intervals ko sort kar diya hai
         int i=0;
         int end=intervals.length-1;
         while(i<=end-1){
-         /*   if(intervals[i][0]>intervals[i+1][0]){
+          /*if(intervals[i][0]>intervals[i+1][0]){
                 int temp=intervals[i][0];
-               intervals[i][0] = intervals[i+1][0];
+                intervals[i][0] = intervals[i+1][0];
                 intervals[i+1][0]=temp;
             }  */
-            if(intervals[i][1]>intervals[i+1][1]){
-               int temp = intervals[i][1];
-               intervals[i][1]  = intervals[i+1][1];
-               intervals[i+1][1] = temp;
+            if(intervals[i][1]>intervals[i+1][1]){  //ex:- [5,15],[6,10]  ==>  [5,10] i.e delete next index b/c
+                          // next index ka upper bound ve prev(curr) index ke upper bound se chhota hai   
+              
+               /*int temp = intervals[i][1];
+                intervals[i][1]  = intervals[i+1][1];
+                intervals[i+1][1] = temp;  */
+               
+                leftShift(intervals,i+1, end);
+                end--;
             }
-            else if(intervals[i][1]>=intervals[i+1][0]){
+            else if(intervals[i][1]>=intervals[i+1][0]){    //  [5,10],[6,15]  ==>  [5,15]
                 intervals[i][1]=intervals[i+1][1];
                 leftShift(intervals,i+1,end);
                 end--;
-                if(i>0)   { i--;}
+                //if(i>0)   { i--;}
             }
             else{
                i++;
