@@ -14,7 +14,8 @@ class Solution {
         }
 
         int i=0, j=0, k=0;
-        double val1 = Integer.MAX_VALUE, val2 = Integer.MAX_VALUE;
+        double val1 = Integer.MAX_VALUE, val2 = Integer.MAX_VALUE;  // int-max b/c to our
+        // array contains -ve values also
 
         while( i<n && j<m){
 
@@ -61,11 +62,11 @@ class Solution {
         }
         
         
-        // vvvvi b/c it one arrys is empty the this will  execute
+        // vvvvi b/c if one arrys is empty the this will  execute
         // eg:- nums2= [], nums2=[2,3]; 
-        if( val1 != Integer.MAX_VALUE && val2 != Integer.MAX_VALUE){
-                return (val1 + val2)/2;
-        }
+        // if( val1 != Integer.MAX_VALUE && val2 != Integer.MAX_VALUE){
+        //         return (val1 + val2)/2;
+        // }
 
         return 1.0;  // it is never going to execute
     }
