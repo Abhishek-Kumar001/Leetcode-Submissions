@@ -2,19 +2,17 @@ class Solution {
 public:
     vector<int> plusOne(vector<int>& v) {
         int n = v.size();
+        int carry = 1;
         for(int i = n-1; i >= 0; i--){
-            if(i == n-1)
-                v[i]++;
-            if(v[i] == 10){
-                v[i] = 0;
-                if(i != 0){
-                    v[i-1]++;
-                }
-                else{
-                    v.push_back(0);
-                    v[i] = 1;
-                }
-            }
+           int sum = carry + v[i];
+           carry = sum / 10;
+           sum = sum % 10;          
+           v[i] = sum;
+        }
+        if( carry == 1){
+            vector<int> newVec(n+1, 0);
+            newVec[0] = 1;          
+            return newVec;
         }
         return v;
     }
