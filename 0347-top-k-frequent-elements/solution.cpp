@@ -2,7 +2,7 @@ class Solution {
 public:
     vector<int> topKFrequent(vector<int>& nums, int k) {
         // @ my approach
-        map<int, int> mp;
+        unordered_map<int, int> mp;
         for(auto it: nums){
             mp[it]++;
         }
@@ -11,7 +11,7 @@ public:
         //so create a another map and push value first then data of map1
         //since there may be duplicate keys so use multimap
         multimap<int, int> multiMap;
-        map<int, int>::iterator it;
+        unordered_map<int, int>::iterator it;
         for (it = mp.begin(); it != mp.end(); it++) {
             multiMap.insert({ it->second, it->first });
         }
