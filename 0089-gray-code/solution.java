@@ -1,14 +1,19 @@
 class Solution {
     public List<Integer> grayCode(int n) {
-        // if(n==0)return new ArrayList<>();
-        List<Integer> crnt=new ArrayList<>(Arrays.asList(0,1));
-        if(n==1)return crnt;
-        crnt=grayCode(n-1);
-        List<Integer> ret=new ArrayList<>();
-        int add=(int)Math.pow(2,n-1);
-        for(int i=crnt.size()-1;i>-1;i--){
-            crnt.add(crnt.get(i)+add); 
+        // Coding Decoded app yt
+        ArrayList<Integer> al = new ArrayList<Integer>();
+        al.add(0);
+        al.add(1);  //handle up to n=1;
+        
+        int pow = 1;
+        for(int i=2; i<=n; i++){
+            pow = pow*2;
+
+            for(int j=pow-1; j>=0; j--){
+                al.add(al.get(j) + pow);
+            }
         }
-        return crnt;        
+        return al;
+        
     }
 }
