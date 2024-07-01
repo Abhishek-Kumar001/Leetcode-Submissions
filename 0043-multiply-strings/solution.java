@@ -1,22 +1,29 @@
 class Solution {
     public String multiply(String num1, String num2) {
-        if ("0".equals(num1) || "0".equals(num2)) {
-            return "0";
-        }
-        int n1 = num1.length(), n2 = num2.length();
-        int[] result = new int[n1 + n2];
-        for (int i = n1 - 1; i >= 0; i--) {
-            int d1 = num1.charAt(i) - '0';
-            for (int j = n2 - 1; j >= 0; j--) {
-                result[i + j + 1] += d1 * (num2.charAt(j) - '0');
+        // Coding decoding
+
+        //base cases
+        int n=num1.length(), m = num2.length();      
+        if(num1.equals("0")  || num2.equals("0")) return "0";
+
+        int []ansArr = new int[n+m];
+        for(int i=n-1; i>=0; i--){
+            for(int j=m-1; j>=0; j--){
+                int product =( num1.charAt(i) - '0') * ( num2.charAt(j) - '0');
+                product += ansArr[i+j+1];
+
+                ansArr[i+j+1] = product % 10;
+                ansArr[i+j] += product / 10;  // carry  // note there is a + (adding)
             }
         }
-        for (int i = result.length - 1, carry = 0, sum; i >= 0; i--) {
-            sum = result[i] + carry;
-            carry = sum / 10;
-            result[i] = sum % 10 + '0';
+
+        StringBuffer sb = new StringBuffer();
+        for(int i=0; i<n+m; i++){
+            if(sb.length()== 0  && ansArr[i] == 0)continue;
+
+            sb.append(ansArr[i]);
         }
-        int i = result[0] == '0' ? 1 : 0;
-        return new String(result, i, result.length - i);
+
+        return sb.toString();
     }
 }
