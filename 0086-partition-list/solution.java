@@ -11,34 +11,34 @@
  //using external space
 class Solution {
     public ListNode partition(ListNode head, int x) {
-        List<Integer> list1 = new ArrayList<>();
-        List<Integer> list2 = new ArrayList<>();
-        ListNode temp = head;
-        while(temp != null){
-            if(temp.val < x)
-              list1.add(temp.val);
-            else
-              list2.add(temp.val);
+        ListNode lessThanXHead = new ListNode(-1);  // creating a dummy node
+        ListNode temp1 = lessThanXHead;
+        ListNode greaterOrEqualXHead = new ListNode(-1);  // creatin a dummy node
+        ListNode temp2 = greaterOrEqualXHead;
 
-            temp = temp.next;
+
+        ListNode curr= head;
+
+        while(curr != null){
+            if(curr.val < x){
+                temp1.next = curr;
+                temp1 = temp1.next;
+            }else{
+                temp2.next = curr;
+                temp2 = temp2.next;
+            }
+            curr = curr.next;
         }
 
-        temp = head;
-        int i=0;
-        int j=0;
-        while(temp != null){
-            if(i < list1.size()){
-                temp.val = list1.get(i);
-                i++;
-            }
-            else if(j < list2.size()){
-                temp.val = list2.get(j);
-                j++;
-            }
+        // pointing the next node of temp2 to null b/c this is our new tail node
+        temp2.next = null;
+        // linking the last node of smaller ll to head of greater ll
+        temp1.next = greaterOrEqualXHead.next; //next b/c 1st node was a dummy node
 
-            temp = temp.next;
-        }
-        return head;
+        return lessThanXHead.next;
+
+
+        
     }
 }
 
