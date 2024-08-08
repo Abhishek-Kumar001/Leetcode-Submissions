@@ -5,7 +5,8 @@ public:
         vector<int> marked(n, 0);
         for(int i=2; i*i <n; i++){
             if(marked[i] == 0){
-                for(int j=i*i; j<n; j+=i){
+                // for(int j=i*1; j<n; j+=i){
+                for(int j=i*2; j<n; j+=i){
                     marked[j] = 1;
                 }
             }
