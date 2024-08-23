@@ -9,7 +9,7 @@ class Solution {
         for(int i=2; i<=n; i++){
             pow = pow*2;
 
-            for(int j=pow-1; j>=0; j--){
+            for(int j=al.size()-1; j>=0; j--){
                 al.add(al.get(j) + pow);
             }
         }
