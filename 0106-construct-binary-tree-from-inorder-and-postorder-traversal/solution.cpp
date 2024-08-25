@@ -18,9 +18,14 @@ public:
     {
       
         //base case
-        if(index >= postorder.size()  || startInd > endInd){
-           return NULL;
+        // if(index >= postorder.size() || startInd > endInd){//i think index ko check karna 
+        //    return NULL;                                     //in not needed b/c waise v hm
+        // }                                              // galat hi checkkar rhe the       
+        
+        if( startInd > endInd){
+           return NULL;                                    
         }
+               
         // int val = preorder[index];
         TreeNode* root = new TreeNode(postorder[index]);
         int posi = mpp[postorder[index--]];
@@ -31,9 +36,7 @@ public:
 
         root->left = buildTreeHelper(index, postorder, inorder, mpp, startInd,
                                      posi-1);
-        
-       return root;
-    
+         return root; 
     }
     TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
         map<int, int> mpp;
