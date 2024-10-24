@@ -1,24 +1,24 @@
 class Solution {
-public:
-    //helper func
-    void generateAllSubsets(vector<int> temp, int i, vector<int> nums, vector<vector<int>> &               ans){
-        
-        //base case
-        if( i == nums.size()){
-            ans.push_back( temp );
-            return ;
-        }
-        
-        temp.push_back(nums[i]);
-        generateAllSubsets( temp, i+1, nums, ans);
-        temp.pop_back( );
-        generateAllSubsets( temp, i+1, nums, ans);
+private:
+    void helper(int ind, int n,vector<int> nums, vector<int> temp, vector<vector<int>> &ans){
+        //base case 
+        if(ind == n){
+            ans.push_back(temp);
+            return;
+        } 
+
+        //take 
+        temp.push_back(nums[ind]);
+        helper(ind+1, n, nums, temp, ans);
+        //notTake 
+        temp.pop_back();
+        helper(ind+1, n, nums, temp, ans);
     }
-    
+public:
     vector<vector<int>> subsets(vector<int>& nums) {
         vector<vector<int>> ans;
-        vector<int> temp;
-        generateAllSubsets(temp, 0, nums, ans);
+        vector<int>temp ;
+        helper(0, nums.size(), nums, temp, ans);
         return ans;
     }
 };
