@@ -1,25 +1,33 @@
 class Solution {
 public:
-    vector<string> generateParenthesis(int n) {
-        vector<string> ans;
-        solve("", n, n, ans);
-        return ans;
+
+    void recursion(int noOfOpen, int noOfClose, int n, string &temp, vector<string> &res) {
+        if (temp.size() == n) {
+            res.push_back(temp);
+            return;
+        }
+
+
+        // take 0
+        if (noOfOpen > 0) {
+            temp.push_back('(');
+            recursion(noOfOpen - 1, noOfClose, n, temp, res);
+            temp.pop_back(); // backtrack
+        }
         
+        // take 1 (only if previous was not '1')
+        if ((!temp.empty() && noOfClose > 0  &&   noOfOpen < noOfClose) ) {
+            temp.push_back(')');
+            recursion(noOfOpen, noOfClose - 1, n, temp, res);
+            temp.pop_back(); // backtrack
+        }
     }
-    void solve( string op, int open, int close, vector<string> &ans){
-        //base case
-        if( open ==0  && close == 0){
-            ans.push_back( op );
-            return ;
-        }
-        
-        if( open != 0){
-            string op1 = op + "(";
-            solve( op1, open-1, close, ans);
-        }
-        if( close != open){
-            string op2 = op + ")";
-            solve( op2, open, close-1, ans);
-        }
+
+    vector<string> generateParenthesis(int n) {
+        vector<string> res;
+        string temp = "";
+        recursion(n, n, 2*n, temp, res); 
+
+        return res;  
     }
 };
