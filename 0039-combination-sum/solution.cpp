@@ -1,35 +1,32 @@
 class Solution {
-    void solve(int ind, vector<int> &candidates, vector<vector<int>> &ans,     int target, vector<int> temp)
-    { 
-        //base case - 1
-        if(ind >= candidates.size()) return ;
-        //base case - 2
+    void helperFun(int i, int target, vector<int> candidates, vector<int> temp, vector<vector<int>> &ans){
+        // base case
+        if(i >= candidates.size()) return ;
         if(target == 0){
             ans.push_back(temp);
-            return ;
+            return;
         }
-        //base case - 3
-        if(target < candidates[ind]) return;
 
-        
-        // now we have to choices -> take or notTake 
-        // Take
-        temp.push_back(candidates[ind]);
-        solve(ind, candidates, ans, target-candidates[ind], temp);
-         //backtrack
-        temp.pop_back();
-        
-        // notTake
-        solve(ind+1, candidates, ans, target, temp);   
+        // if(candidates[i] > target) return ;
 
+
+        // take 
+        if( candidates[i] <= target){
+            temp.push_back(candidates[i]);
+            helperFun(i, target-candidates[i], candidates, temp, ans);
+            temp.pop_back();
+        }
+
+        // not take 
+        helperFun(i+1, target, candidates, temp, ans);
     }
 public:
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        sort(candidates.begin(), candidates.end());
-
+        // sort(candidates.begin(), candidates.end());
         vector<vector<int>> ans;
         vector<int> temp;
-        solve(0, candidates, ans, target, temp);
+
+        helperFun(0, target, candidates, temp, ans);
         return ans;
     }
 };
