@@ -7,22 +7,22 @@ class Solution {
             return;
         }
 
-        // if(candidates[i] > target) return ;
+        if(candidates[i] > target) return ;
 
 
         // take 
-        if( candidates[i] <= target){
+        // if( candidates[i] <= target){
             temp.push_back(candidates[i]);
             helperFun(i, target-candidates[i], candidates, temp, ans);
             temp.pop_back();
-        }
+        // }
 
         // not take 
         helperFun(i+1, target, candidates, temp, ans);
     }
 public:
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        // sort(candidates.begin(), candidates.end());
+        sort(candidates.begin(), candidates.end());
         vector<vector<int>> ans;
         vector<int> temp;
 
