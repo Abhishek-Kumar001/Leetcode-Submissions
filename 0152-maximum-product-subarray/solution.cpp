@@ -1,18 +1,21 @@
+#include <bits/stdc++.h>
+using namespace std;
+
 class Solution {
 public:
     int maxProduct(vector<int>& nums) {
+        int maxProduct = nums[0]; // handle negative numbers too
         int n = nums.size();
-        int pre =1, suff=1;
-        int maxi = INT_MIN;
-        for(int i=0; i<nums.size(); i++){
-             if( pre == 0) pre =1;
-             if(suff == 0) suff = 1;
 
-             pre*=nums[i];
-             suff*= nums[n-i-1];
-
-             maxi = max( maxi, max( pre , suff));
+        for (int i = 0; i < n; i++) {
+            long long tempProduct = 1; // reset for each new subarray start
+            for (int j = i; j < n; j++) {
+                tempProduct *= nums[j]; // multiply nums[j], not nums[i]
+                maxProduct = max(maxProduct, (int)tempProduct);
+            }
         }
-        return maxi;
+
+        return maxProduct;
     }
 };
+
