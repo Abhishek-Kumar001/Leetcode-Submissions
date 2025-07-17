@@ -1,32 +1,27 @@
 class Solution {
-    void helperFun(int i, int target, vector<int> candidates, vector<int> temp, vector<vector<int>> &ans){
-        // base case
-        if(i >= candidates.size()) return ;
-        if(target == 0){
-            ans.push_back(temp);
-            return;
-        }
-
-        if(candidates[i] > target) return ;
-
-
-        // take 
-        // if( candidates[i] <= target){
-            temp.push_back(candidates[i]);
-            helperFun(i, target-candidates[i], candidates, temp, ans);
-            temp.pop_back();
-        // }
-
-        // not take 
-        helperFun(i+1, target, candidates, temp, ans);
-    }
 public:
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        sort(candidates.begin(), candidates.end());
         vector<vector<int>> ans;
-        vector<int> temp;
+        vector<int> tempArr;
+        sort(candidates.begin(), candidates.end());
 
-        helperFun(0, target, candidates, temp, ans);
+        solve(0, candidates, target, ans, tempArr);
         return ans;
+    }
+
+    void solve(int ind, vector<int> arr, int req, vector<vector<int>> &ans, vector<int> tempArr){
+        if(ind == arr.size()) return ;
+        if(req == 0){
+            ans.push_back(tempArr);
+            return ;
+        }
+        // order is vvi , if i put it above i will get wrong ans
+        if(req < arr[ind]) return ;
+
+        // not take  first so that we don't need to do pop_back latter
+        solve(ind+1, arr, req, ans, tempArr);
+        //take 
+        tempArr.push_back(arr[ind]);
+        solve(ind, arr, req-arr[ind], ans, tempArr);
     }
 };
