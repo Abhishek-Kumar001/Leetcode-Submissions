@@ -1,40 +1,67 @@
+// class Solution {
+// public:
+//     bool isWithoutRepeating(string s){
+//         map<char, int> mpp;
+
+//         for(char ch : s){
+//             if(mpp[ch] != 0) return false;
+//             mpp[ch]++;
+//         }
+//         return true;
+//     }
+
+//     int lengthOfLongestSubstring(string s) {
+//         // M1 - Bruit force (we will generate all the substrings and check for 
+//         // longest substring without repeating characters)
+
+//         // TLE
+//         // TC - O(n^2 * n)
+//         // SC = O(n^2 * n);
+        
+//         int maxLength = 0;
+//         for(int i=0; i<s.size(); i++){
+//             string substr = "";
+//             for(int j=i; j<s.size(); j++){
+//                 substr+=s[j];
+
+//                 if(isWithoutRepeating(substr)){
+//                     int currSize = substr.size();
+//                     maxLength = max(maxLength, currSize);
+//                 }
+//             }
+//         }
+
+//         return maxLength;
+//     }
+// };
+
+
+
+
+                      // good 
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        //this codde is not recomended , previous successs 
-        // submition is recomemded
-        int n = s.length();
-        if(s.length() == 0) return 0;
+        // M2 optimized
+        // sliding window app (apna clg)
 
-        // skip 0th index duplicates
-        int i=0;
-        if(n >= 2){
-            if( s[0] == s[1]){
-                while(i<n && s[0] == s[i]) i++;
-                i--;
+        // TLE
+        // TC - O(n)
+        // SC = O(0);
+        
+        vector<int> charIndex(256, -1);
+        int start = 0, maxLen = 0;
+        for(int i=0; i<s.size(); i++){
+            int lastPosi = charIndex[ s[i] ];
+            if( lastPosi >= start){
+                start = lastPosi+1;
             }
+            maxLen = max(maxLen, i-start+1);
+            charIndex[s[i]] = i;
         }
 
-        map<char, int> mp;      
-        int cnt = 0;
-        int start = i+1; // start+1
-        int maxi = 1;  // for all duplicate
-        for(i; i<s.length(); i++){
-            int ch = s[i];
-            if( mp[ch] < start){
-                mp[ch] = i+1; // assiging its index+1 ssince 
-                // map me ch[x] == 0 means ye ele nahi aaya hai
-                // but for the 1st ele hm 0(index) assing kare
-                // to ans me problem aayegi 
-          
-                int diff = (i+1) - start+ 1;
-                maxi = max(maxi , diff);
-            }else{            
-                start = mp[ch]+1;
-                mp[ch] = i+1;  // update with the new index
-            }
-        }
-
-        return maxi;
+        return maxLen;
     }
 };
+
+
