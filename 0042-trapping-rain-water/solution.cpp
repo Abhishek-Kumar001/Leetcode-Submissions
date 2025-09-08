@@ -1,28 +1,27 @@
 class Solution {
 public:
     int trap(vector<int>& height) {
-        
         int n = height.size();
-        vector<int> maxNext(n);
-        vector<int> maxPrev(n);
-       
-        int maxi = height[n-1];
-        for(int i=n-1; i>=0; i--){
-           maxi = max( maxi, height[i]);
-           maxNext[i] = maxi;
+        vector<int> prevMax(n);
+        prevMax[0] = height[0];
+
+        vector<int> nextMax(n);
+        nextMax[n-1] = height[n-1];
+
+        // Build prevMax (left max for each index)
+        for (int i = 1; i < n; i++) {
+            prevMax[i] = max(prevMax[i-1], height[i]);
         }
 
-        int maxi2 = height[0];
-        for(int i=0; i<n; i++){
-            maxi2 = max( maxi2, height[i]);
-            maxPrev[i]= maxi2;
+        // Build nextMax (right max for each index)
+        for (int i = n - 2; i >= 0; i--) {
+            nextMax[i] = max(nextMax[i + 1], height[i]);
         }
 
-        int ans =0;
-        for(int i=1; i<n; i++){
-           int mini = min( maxNext[i], maxPrev[i]);
-           ans+= mini - height[i];
-        }
-        return ans;
+       int waterStore = 0;
+       for(int i=1; i<n-1; i++){
+           waterStore +=  (min(prevMax[i], nextMax[i]) - height[i]);
+       }
+       return waterStore;
     }
 };
