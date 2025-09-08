@@ -1,33 +1,23 @@
 class Solution {
-    double helper(double x,  long long n, double ans){
-        // base case 
-        if(n == 0) {
-            return ans;
-        }
-
-        if(n % 2 == 1){
-            ans *= x;
-        }
-
-        x*=x;
-        n = n/2;
-        ans = helper(x, n, ans);
-        
-        return ans;
-    }
 public:
     double myPow(double x, int n) {
-       double ans = 1;
-       long long nn = n;
-       nn = abs(nn);
-       ans = helper(x, nn, ans);
+        // corner case
+        if(n == 0) return 1;
 
-       if(n < 0) {
-        return 1/ ans;
-       }
-       return ans;
+        long long nn = n;
+        if(nn < 0 ) nn = -nn;
+        double ans = 1;
+        while(nn){
+            if(nn % 2 == 0){
+                x = x*x;
+                nn /=2;
+            }else{
+                ans *= x;
+                nn--;
+            }
+        }
+
+        if(n < 0) return 1/ans;
+        return ans;
     }
 };
-
-
-
