@@ -1,33 +1,31 @@
 class Solution {
-public:
-
-    void recursion(int noOfOpen, int noOfClose, int n, string &temp, vector<string> &res) {
-        if (temp.size() == n) {
-            res.push_back(temp);
+    void helper( int openBracket, int closeBracket, vector<string> &ans, string temp){
+        // base case
+        if(openBracket == 0 && closeBracket == 0){
+            ans.push_back(temp);
             return;
-        }
+        } 
 
 
-        // take 0
-        if (noOfOpen > 0) {
-            temp.push_back('(');
-            recursion(noOfOpen - 1, noOfClose, n, temp, res);
-            temp.pop_back(); // backtrack
+        // 1st we will have to take '(' then only we can take ')'
+        if(openBracket){
+            openBracket--;
+           temp += '(';
+           helper(openBracket, closeBracket, ans, temp);
+           temp.pop_back();
+           openBracket++;
         }
-        
-        // take 1 (only if previous was not '1')
-        if ((!temp.empty() && noOfClose > 0  &&   noOfOpen < noOfClose) ) {
-            temp.push_back(')');
-            recursion(noOfOpen, noOfClose - 1, n, temp, res);
-            temp.pop_back(); // backtrack
+        // now take closeBracket if and only if we have more number of closing bracket
+        if(closeBracket > openBracket){
+            temp+=')';
+            closeBracket--;
+            helper(openBracket, closeBracket,ans, temp);
         }
     }
-
-    vector<string> generateParenthesis(int n) {
-        vector<string> res;
-        string temp = "";
-        recursion(n, n, 2*n, temp, res); 
-
-        return res;  
+public:
+    vector<string> generateParenthesis(int n) { 
+        vector<string> ans;
+        helper(n, n, ans, "");
+        return ans;
     }
 };
