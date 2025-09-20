@@ -1,40 +1,36 @@
 class Solution {
-private:
-    bool check(int node, vector<int> &color,vector<vector<int>>& adjList, vector<int> &visited){
-        color[node] = 1;
-        visited[node] = 1;
-        queue<int> q;
-        q.push(node);
+    bool bfs(vector<vector<int>>& adjList, int node, vector<int> &visited,  vector<int> &color){
+        queue<pair<int, int>> q;
+        q.push({node,node});
 
-        while( !q.empty()){
-            int front = q.front();
+        while(!q.empty()){
+            int node = q.front().first;
+            int parent = q.front().second;
             q.pop();
 
-            for( int neigh : adjList[front]){
-                if(  visited[neigh] == 1  &&  color[neigh] == color[front]){
-                    return false;
-                }
-                else if( visited[neigh] == 0 ) {
+            for(int neigh : adjList[node]){
+                if(!visited[neigh]){
                     visited[neigh] = 1;
-                    color[neigh] = !color[front];
-                    q.push( neigh);
+                    color[neigh] = !color[node];
+                    q.push({neigh, node}); // {node and its parent}
                 }
+                else if(color[neigh] == color[node]) return false;
             }
         }
         return true;
-}
+    }
 public:
-    bool isBipartite(vector<vector<int>>& edges) {
-        int n = edges.size();
-        
-        vector<int> color(n, -1);
-        vector<int> visited(n, 0);
-        for( int i=0; i<n; i++){
-            if( color[i] == -1){
-                if( check( i, color, edges, visited )  == false ){
-                    return false;
-                }
-            }	
+    bool isBipartite(vector<vector<int>>& graph) {
+        // already adj list is given so use this
+        vector<int> visited(graph.size(), 0), color(graph.size(), -1);
+
+        for(int i=0; i<graph.size(); i++){
+            if(!visited[i]){
+                visited[i] = 1; 
+                color[i] =1;
+                bool isBipertite = bfs(graph, i, visited, color);
+                if(!isBipertite) return false;
+            }
         }
         return true;
     }
