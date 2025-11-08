@@ -22,17 +22,12 @@ class Solution {
         //root->val = max(0, root->val);
 
         maxi =  max(maxi, leftSum+rightSum+root->val);
-
-        
+  
         return max(leftSum , rightSum) + root->val;
 
     }
 public:
     int maxPathSum(TreeNode* root) {
-  /*  if(root->left == NULL  && root->right == NULL){
-           return root->val;
-        }   */
-        
         int maxi = INT_MIN;
         solve(root, maxi);
         return maxi;
