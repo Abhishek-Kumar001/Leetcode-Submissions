@@ -10,22 +10,18 @@
  * };
  */
 class Solution {
-private:
-    bool isValidBSTHelper(TreeNode* root, long minRange, long maxRange){
-        //base case
+    bool helper(TreeNode* root, long long min, long long max){
         if(root == NULL) return true;
 
-        if(root->val <=minRange  || root->val >= maxRange) return false;
-
-        bool left = isValidBSTHelper(root->left, minRange, root->val);
-        if(left == false) return false;
-        bool right = isValidBSTHelper(root->right, root->val, maxRange);
-
-        return left && right;
+        // base case 
+        if(root->val >= max || root->val <= min) return false;
+        bool isLeftTreeBST = helper(root->left, min, root->val);
+        if(!isLeftTreeBST) return false;
+        return helper(root->right, root->val, max);
     }
 public:
     bool isValidBST(TreeNode* root) {
-
-        return isValidBSTHelper(root, LONG_MIN,LONG_MAX);
+        
+        return helper(root, LONG_MIN, LONG_MAX);
     }
 };
