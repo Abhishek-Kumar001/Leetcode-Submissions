@@ -10,17 +10,25 @@
  * };
  */
 class Solution {
-    void helper(TreeNode* root, vector<int> &ans){
-        if(root == NULL) return ;
-
-        helper(root->left, ans);
-        helper(root->right, ans);
-        ans.push_back(root->val);
-    }
+    
 public:
     vector<int> postorderTraversal(TreeNode* root) {
+        // ITERATIVE METHOD
+
         vector<int> ans;
-        helper(root, ans);
+        if(root == NULL) return ans;
+
+        stack<TreeNode*> stk;
+        stk.push(root);
+        while(!stk.empty()){
+            TreeNode* node = stk.top();
+            stk.pop();
+            ans.push_back(node->val);
+
+            if(node->left) stk.push(node->left);
+            if(node->right) stk.push(node->right);
+        }
+        reverse(ans.begin(), ans.end());
         return ans;
     }
 };
