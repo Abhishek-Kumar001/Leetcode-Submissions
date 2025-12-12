@@ -11,17 +11,12 @@
 class Solution {
 public:
     ListNode* middleNode(ListNode* head) {
-        //our approach is to use slow and fast pointer 
-        //    which is specially ment for finding middle node 
-        
-        ListNode*  slow=head;
-        ListNode*  fast=head;
-            
-        while(slow != NULL  && fast!=NULL && fast->next!=NULL){
-            slow=slow->next;
-            fast=fast->next->next;
+        ListNode* slow = head, *fast = head;
+
+        while(fast && fast->next){
+            slow = slow->next;
+            fast = fast->next->next;
         }
-        
         return slow;
     }
 };
