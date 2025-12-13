@@ -10,34 +10,25 @@
  * };
  */
 class Solution {
-private:
-   void inorderTraversal(TreeNode* root, vector<int> &inorderArr){
-      // base case
-      if(root == NULL) return ;
-
-      inorderTraversal(root->left, inorderArr);
-      inorderArr.push_back(root->val);
-      inorderTraversal(root->right, inorderArr);
-   }
+    void bst(TreeNode* root, vector<int> &ans ){
+        // base case 
+        if(!root) return;
+        
+        bst(root->left, ans);
+        ans.push_back(root->val);
+        bst(root->right, ans);
+    }
 public:
     bool findTarget(TreeNode* root, int k) {
-        // we know that the inorder of bst in sorted order
-        // so 1st we will find the inorder of bst & store in an array then
-        // we apply 2-pointer app to find the k
+         // as we know that the inorder traversal of bst is always in sorted order
+        vector<int> ans;
+        bst(root, ans);
 
-        vector<int> inorderArr;
-        inorderTraversal(root, inorderArr);
-
-        // now apply 2-pointer app
-        int i=0, j=inorderArr.size()-1;
-        while(i<j){
-            if(inorderArr[i] + inorderArr[j]  == k){
-                return true;
-            }else if( inorderArr[i] + inorderArr[j]  > k ){
-                j--;
-            }else{
-                i++;
-            }
+        int start =0, end = ans.size()-1;
+        while(start < end){
+            if(ans[start] + ans[end]  == k) return true;
+            else if( ans[start] + ans[end] > k) end--;
+            else start++;
         }
         return false;
     }
