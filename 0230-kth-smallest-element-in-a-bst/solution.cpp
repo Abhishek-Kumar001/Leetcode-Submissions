@@ -10,20 +10,19 @@
  * };
  */
 class Solution {
-    void inorderTraversal(TreeNode* root, vector<int>& arr){
+    void bst(TreeNode* root, vector<int> &ans ){
         // base case 
-        if(root == NULL) return;
-
-        inorderTraversal(root->left, arr);
-        arr.push_back(root->val);
-        inorderTraversal(root->right, arr);
+        if(!root) return;
+        
+        bst(root->left, ans);
+        ans.push_back(root->val);
+        bst(root->right, ans);
     }
 public:
     int kthSmallest(TreeNode* root, int k) {
-        // as we know the inorder traversal of BST is always in sorted order
-        vector<int> arr;
-        inorderTraversal(root, arr);
-
-        return arr[k-1];
+        // as we know that the inorder traversal of bst is always in sorted order
+        vector<int> ans;
+        bst(root, ans);
+        return ans[k-1];
     }
 };
