@@ -12,50 +12,28 @@
 class Solution {
 public:
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
-
-        if(!root) return {}; // handle empty tree
-
+        if (root == nullptr) return {};   // 🔴 Important fix
+        vector<vector<int>> ans;
         queue<TreeNode*> q;
         q.push(root);
-        q.push(NULL);
+        bool flag = true;
 
-        vector<int> temp;
-        vector<vector<int>> ans;
+        while(!q.empty()){
+            int size = q.size();
+            vector<int> temp(size, -1);
+            for(int i=0; i<size; i++){
+                int p = flag  ? i : size-1-i;
+                TreeNode* top = q.front();
+                q.pop();
+                temp[p] = top->val;
 
-        int flag = 1;
-
-        while(!q.empty()) {
-            TreeNode* frontEle = q.front();
-            q.pop();
-
-            if(frontEle != NULL) {
-
-                temp.push_back(frontEle->val);
-
-                // fix: push children of frontEle, not root
-                if(frontEle->left) q.push(frontEle->left);
-                if(frontEle->right) q.push(frontEle->right);
+                if(top->left) q.push(top->left);
+                if(top->right) q.push(top->right);
             }
-            else {
-                // reverse properly
-                if(flag) ans.push_back(temp);
-                else {
-                    reverse(temp.begin(), temp.end());
-                    ans.push_back(temp);
-                }
-
-                temp.clear();
-                flag = !flag;
-
-                // stop if no more nodes
-                if(q.empty()) break;
-
-                q.push(NULL);
-
-                if(q.size() == 1) break;
-            }
+            flag = !flag;
+            ans.push_back(temp);
         }
+
         return ans;
     }
 };
-
