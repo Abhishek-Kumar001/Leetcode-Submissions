@@ -1,52 +1,49 @@
 class Solution {
     public boolean checkInclusion(String s1, String s2) {
-        // just using 438 find all anagrams in a string code 
-        Solution2 obj = new Solution2();
+        int []occuranceOfs1 = new int[26];
+        int n1 = s1.length();
+        int n2 = s2.length();
 
-        return obj.findAnagrams(s2, s1);
-    }
-}
+        for(int i=0; i<s1.length(); i++){
+            char ch = s1.charAt(i);
+            occuranceOfs1[ch - 97]++;
+        }
+        
+        int i=0;
+        for(i=0 ; i<s2.length(); i++ ){
+            char ch = s2.charAt(i);
+            if(occuranceOfs1[ch - 97] != 0){
+                break;
+            }
+        }
+        int start = i;
+        if(i + n1 > n2) return false;
 
-class Solution2 {
-    // make it's return type as boolean because we need and in t/f
-    public boolean findAnagrams(String s, String p) {
-        // yt - Tech dose 
-        int n= s.length(), m = p.length();
-        if(n < m)  
-         // return new ArrayList<>();
-         return  false;
-
-        int occurenceS[] = new int[26];
-        int occurenceP[] = new int[26];
-
-        int i = 0;
-        for( i=0; i<p.length(); i++){
-            occurenceS[ s.charAt(i) - 'a']++;
-            occurenceP[ p.charAt(i) - 'a']++;
+        int end = i + n1;
+        int []occuranceOfStr = new int[26];
+        for(int ii=i; ii<i+n1; ii++){
+            char ch = s2.charAt(ii);
+            occuranceOfStr[ch - 97]++;
         }
 
-        // List<Integer> al = new ArrayList<Integer>();
-      
-        int start = 0, end = i-1;
-        while(end<n){
-            if(compareOccurence(occurenceS, occurenceP)){
-                // al.add(start);
-                return true;
-            }
-
-            end++;
-            if(end < n){
-                occurenceS[s.charAt(end) - 'a']++;
-            }
-            occurenceS[s.charAt(start) - 'a']--;
+        while(end < s2.length()){
+            if(isSame(occuranceOfStr, occuranceOfs1)) return true;
+            
+            //start--;
+            occuranceOfStr[s2.charAt(start) - 97]--;
             start++;
+
+            occuranceOfStr[ s2.charAt(end) - 97]++;
+            end++;
+
         }
-        // return al;
-        return false;
+
+        return isSame(occuranceOfStr, occuranceOfs1);
     }
-    private boolean compareOccurence(int []occurenceS, int []occurenceP){
-        for(int i=0; i<occurenceS.length; i++){
-            if(occurenceS[i] != occurenceP[i]) return false;           
+
+    boolean isSame(int s1[], int s2[]){
+        for(int i=0; i<26; i++){
+            if(s1[i] != s2[i]) return false;
         }
         return true;
     }
