@@ -1,40 +1,26 @@
-class Pair{
-    int first =0, second =0;
-    public Pair(int x, int y){
-        first = x; second = y;
-    }
-
-    @Override
-    public String toString() {
-        return "(" + first + ", " + second + ")";
-    }
-}
+import java.util.*;
 
 class Solution {
     public List<Integer> findClosestElements(int[] arr, int k, int x) {
-        PriorityQueue<Pair> pq = new PriorityQueue<Pair>((a,b)-> b.first - a.first);
+        int left = 0;
+        int right = arr.length - k;
 
-        for(int i=0; i<arr.length; i++){
-            if(i<k){
-                pq.add(new Pair(Math.abs(x-arr[i]),  arr[i]));
-            }
-            else{
-                int diff= Math.abs(x-arr[i]);
-                if(pq.peek().first > diff){
-                    pq.poll();
-                    pq.add(new Pair(diff, arr[i]));
-                }
+        // Binary search for best window start
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+
+            if (x - arr[mid] > arr[mid + k] - x) {
+                left = mid + 1;
+            } else {
+                right = mid;
             }
         }
 
-        List<Integer> al = new ArrayList<Integer>();
-        while(pq.size() >= 1){
-            int ele = pq.peek().second;
-            pq.poll();
-
-            al.add(ele);
+        List<Integer> result = new ArrayList<>();
+        for (int i = left; i < left + k; i++) {
+            result.add(arr[i]);
         }
-        Collections.sort(al);
-        return al;
+
+        return result;
     }
 }
