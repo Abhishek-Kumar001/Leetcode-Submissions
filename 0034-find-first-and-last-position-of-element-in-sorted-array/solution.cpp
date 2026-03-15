@@ -1,47 +1,44 @@
 class Solution {
-public:
-    vector<int> searchRange(vector<int>& v, int x) {
-        // code here
-        
-        vector<int> ans(2,-1);
-        // base case 
-        if(v.empty()){
-            return ans;
+    int Find1stPosition(vector<int> &nums, int target){
+        int ans = -1;
+        int s=0, e=nums.size()-1;
+
+        while(s <= e){
+            int mid = s + (e-s)/2;
+
+            if(nums[mid] == target){
+                // this could be the 1st or may be not so store it and look in left
+                ans = mid;
+                e = mid-1;
+            }else if(nums[mid] < target) s = mid+1;
+            else e = mid-1;
         }
-        
-        ans[0] = findOccerence(true, v, x);
-        if(ans[0] == -1){
-            return ans;
-        }
-        else{
-            ans[1] = findOccerence(false, v, x);
-        }
-        
+
         return ans;
     }
-    int findOccerence(bool isfirst, vector<int> &v, int x){
-        int ans =-1;
-        int start = 0; 
-        int end = v.size()-1;
-        
-        while( start <= end){
-          int mid = start + (end- start)/2;
-          
-          if( v[mid] == x){
-              // this may be the potiential ans 
-              ans = mid;
-              if( isfirst)
-                end = mid-1;
-              else
-                start = mid+1;
-          }
-          else if( v[mid] < x){
-              start = mid+1;
-          }
-          else{
-              end = mid-1;
-          }
+
+    int FindLastPosition(vector<int> &nums, int target){
+        int ans = -1;
+        int s=0, e=nums.size()-1;
+
+        while(s <= e){
+            int mid = s + (e-s)/2;
+
+            if(nums[mid] == target){
+                // this could be the last or may be not so store it and look in right
+                ans = mid;
+                s = mid+1;
+            }else if(nums[mid] < target) s = mid+1;
+            else e = mid-1;
         }
+
         return ans;
+    }
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int i = Find1stPosition(nums, target);
+        if(i == -1) return {-1, -1};
+        int j = FindLastPosition(nums, target);
+        return {i, j};
     }
 };
