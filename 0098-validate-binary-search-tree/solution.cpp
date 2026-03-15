@@ -10,18 +10,17 @@
  * };
  */
 class Solution {
-    bool helper(TreeNode* root, long long min, long long max){
+    bool helper(TreeNode* root, long long left, long long right){
         if(root == NULL) return true;
 
-        // base case 
-        if(root->val >= max || root->val <= min) return false;
-        bool isLeftTreeBST = helper(root->left, min, root->val);
-        if(!isLeftTreeBST) return false;
-        return helper(root->right, root->val, max);
+        if(root->val <= left || root->val >= right) return false;
+
+        bool leftRes = helper(root->left, left, root->val);
+        if(leftRes == false) return false;
+        return  helper(root->right, root->val, right);
     }
 public:
-    bool isValidBST(TreeNode* root) {
-        
+    bool isValidBST(TreeNode* root) {        
         return helper(root, LONG_MIN, LONG_MAX);
     }
 };
