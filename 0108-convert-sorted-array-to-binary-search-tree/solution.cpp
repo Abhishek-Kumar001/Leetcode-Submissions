@@ -10,14 +10,20 @@
  * };
  */
 class Solution {
-    TreeNode* helper(vector<int> &nums, int s, int e){
-        if(s > e) return NULL;
-        int mid = s + (e-s)/2;
-        TreeNode* newNode = new TreeNode(nums[mid]);
-        newNode->left = helper(nums, s, mid-1);
-        newNode->right = helper(nums, mid+1, e); 
+    TreeNode* helper(vector<int>& nums, int start, int end){
+        if(start > end) return NULL;
+        if(start == end){
+            TreeNode* node = new TreeNode(nums[start]);
+            return node;
+        }
 
-        return newNode;
+        int mid = start + (end-start)/2;
+        TreeNode* node = new TreeNode(nums[mid]);
+
+        node->left = helper(nums, start, mid-1);
+        node->right = helper(nums, mid+1, end);
+
+        return node;
     }
 public:
     TreeNode* sortedArrayToBST(vector<int>& nums) {
