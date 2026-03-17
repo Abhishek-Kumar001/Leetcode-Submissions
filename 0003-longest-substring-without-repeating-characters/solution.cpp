@@ -1,20 +1,22 @@
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
+        if(s.length() == 0) return 0;
         int start = 0;
-        vector<int> track(256, -1);
-        int maxi = 0;
-        for(int i=0; i<s.size(); i++){
-            char ch = s[i];
-            if(track[ch] != -1){  // it means this char is already present
-                // start = track[ch]+1;  // wrong : You must never move start backward. eg: abba
-                start = max(start, track[ch] + 1);
+        int maxLen = 0;
+        vector<int> indexArr(256, -1);
 
+        for(int i=0; i<s.length(); i++){
+            char ch = s[i];
+            if( indexArr[ch] != -1 && indexArr[ch] >= start){
+                // it means this character has came alrady and that too in after the start 
+                start = indexArr[ch]+1;
             }
-            maxi = max(maxi, i-start+1);
-            track[ch] = i;
+            maxLen = max(maxLen, i-start+1);
+            indexArr[ch] = i;
         }
 
-        return maxi;
+
+        return maxLen;
     }
 };
