@@ -1,31 +1,27 @@
 class Solution {
-    void helper( int openBracket, int closeBracket, vector<string> &ans, string temp){
-        // base case
-        if(openBracket == 0 && closeBracket == 0){
+    void helper(int open, int close, string temp, vector<string> &ans){
+        if(open == 0 && close == 0){
             ans.push_back(temp);
             return;
-        } 
-
-
-        // 1st we will have to take '(' then only we can take ')'
-        if(openBracket){
-            openBracket--;
-           temp += '(';
-           helper(openBracket, closeBracket, ans, temp);
-           temp.pop_back();
-           openBracket++;
         }
-        // now take closeBracket if and only if we have more number of closing bracket
-        if(closeBracket > openBracket){
-            temp+=')';
-            closeBracket--;
-            helper(openBracket, closeBracket,ans, temp);
+
+        if(open){
+            temp += '(';
+            helper(open-1, close, temp, ans);
+            temp = temp.substr(0, temp.size()-1); // we can use temp.pop_back() also
+        }
+        if(close > open){
+            temp += ')';
+            helper(open, close-1, temp, ans);
+            temp.pop_back();
         }
     }
 public:
-    vector<string> generateParenthesis(int n) { 
+    vector<string> generateParenthesis(int n) {
         vector<string> ans;
-        helper(n, n, ans, "");
+        string temp = "";
+
+        helper(n, n, temp, ans);
         return ans;
     }
 };
