@@ -1,18 +1,60 @@
+// class Solution {
+//     public String simplifyPath(String path) {
+//         String copyPath = path;
+//         String dictionary[] = copyPath.split("/");
+//         Stack<String> stk = new Stack<String>();
+
+//         for(String str : dictionary){
+//             if(str == ".."){
+//                 if(!stk.empty()){
+//                     stk.pop();
+//                 }
+//             }else if(str== "." || str == ""); // do nothing
+//             else{
+//                 stk.push(str);
+//             }
+//         }
+//         Stack<String> stk2 = new Stack<>();
+//         while( !stk.empty()) stk2.push(stk.pop());
+
+
+//         String ans = "";
+//         while( !stk2.empty()){
+//             String temp = stk2.pop();
+//             ans+="/";
+//             ans+=temp;
+//         }
+        
+//         return ans;
+//     }
+// }
+
+
+
 class Solution {
     public String simplifyPath(String path) {
-        Stack<String> stack = new Stack<>(); // create a stack to keep track of directories
-        String[] directories = path.split("/"); // split the path by slash '/'
-        for (String dir : directories) { // iterate over the directories
-            if (dir.equals(".") || dir.isEmpty()) { // ignore the current directory '.' and empty directories
-                continue;
-            } else if (dir.equals("..")) { // go one level up for double period '..'
-                if (!stack.isEmpty()) { // if stack is not empty, pop the top element
-                    stack.pop();
+        String[] dictionary = path.split("/");
+        Stack<String> stk = new Stack<>();
+
+        for(String str : dictionary){
+            if(str.equals("..")){
+                if(!stk.empty()){
+                    stk.pop();
                 }
-            } else { // for any other directory, push it to the stack
-                stack.push(dir);
+            } 
+            else if(str.equals(".") || str.equals("")){
+                // do nothing
+            } 
+            else{
+                stk.push(str);
             }
         }
-        return "/" + String.join("/", stack); // join the directories in the stack with slash '/' and add a slash at the beginning
+
+        String ans = "";
+        for(String dir : stk){
+            ans += "/" + dir;
+        }
+
+        return ans.length() == 0 ? "/" : ans;
     }
 }
