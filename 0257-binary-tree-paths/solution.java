@@ -16,24 +16,25 @@
 class Solution {
     public List<String> binaryTreePaths(TreeNode root) {
         List<String> ansList = new ArrayList<String>();
+        String path = "";
 
-        String s = new String("");
-        pathAdd(root,s, ansList);
+        if(root == null) return ansList;
+
+        helper(root, ansList, path);
         return ansList;
     }
-    public void pathAdd(TreeNode root,String s,List<String> ansList){
+
+    public void helper(TreeNode root, List<String> ansList, String path){
         if(root == null) return ;
         if(root.left == null && root.right == null){
-            s+=root.val;
-            ansList.add(s);
-            return;
+            path+=(root.val);
+            ansList.add(path);
+            return ;
         }
-        String no = Integer.toString(root.val);
-        s+=no;
-        s+="->";
 
-        //now make left & right calls
-        pathAdd(root.left, s, ansList);
-        pathAdd(root.right, s, ansList);
+        helper(root.left,  ansList, path + root.val + "->");
+        helper(root.right, ansList, path + root.val + "->");
+
+
     }
 }
