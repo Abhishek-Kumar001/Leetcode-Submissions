@@ -3,17 +3,17 @@ public:
     vector<vector<int>> merge(vector<vector<int>>& intervals) {
         sort(intervals.begin(), intervals.end());
 
-        vector<int> arr(intervals[0]);
         vector<vector<int>> ans;
-        for(int i=1; i<intervals.size(); i++){
-            if(arr[1] >= intervals[i][0]){
-                arr[1] = max(arr[1], intervals[i][1]);
+        // vector<int> temp;
+
+        for(int i=0; i<intervals.size(); i++){
+            if(ans.size() == 0 || ans.back()[1] < intervals[i][0]){
+                ans.push_back(intervals[i]);
             }else{
-                ans.push_back(arr);
-                arr = intervals[i];
+                ans.back()[1] = max(ans.back()[1], intervals[i][1]);
             }
         }
-        ans.push_back(arr);
+
         return ans;
     }
 };
