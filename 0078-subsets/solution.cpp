@@ -1,24 +1,26 @@
 class Solution {
-private:
-    void helper(int ind, int n,vector<int> nums, vector<int> temp, vector<vector<int>> &ans){
-        //base case 
-        if(ind == n){
+    void helper(int ind, vector<int> &nums, vector<int> temp, vector<vector<int>> &ans){
+        if(ind == nums.size()){
             ans.push_back(temp);
             return;
-        } 
+        }
+        if(ind > nums.size()) return ;
 
-        //take 
+        // now we have 2 choices 
+        // 1st take 
         temp.push_back(nums[ind]);
-        helper(ind+1, n, nums, temp, ans);
-        //notTake 
+        helper(ind+1, nums, temp, ans);
         temp.pop_back();
-        helper(ind+1, n, nums, temp, ans);
+
+        // 2nd - not take
+        helper(ind+1, nums, temp, ans);
     }
 public:
     vector<vector<int>> subsets(vector<int>& nums) {
+        vector<int> temp;
         vector<vector<int>> ans;
-        vector<int>temp ;
-        helper(0, nums.size(), nums, temp, ans);
+
+        helper(0, nums, temp, ans);
         return ans;
     }
 };
