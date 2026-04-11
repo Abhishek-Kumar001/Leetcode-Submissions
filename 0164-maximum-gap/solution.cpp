@@ -1,15 +1,14 @@
 class Solution {
 public:
     int maximumGap(vector<int>& nums) {
-        if(nums.size() < 2)
-            return 0;
-        sort(nums.begin(),nums.end());
-        int dif=0;
-        int maxDif = INT_MIN;
-        for(int i=1; i<nums.size(); i++){
-            dif=nums[i]-nums[i-1];
-            maxDif=max(maxDif,dif);
+        int n = nums.size();
+        if(n == 1) return 0;
+
+        sort(nums.begin(), nums.end());
+        int maxDiff = 0;
+        for(int i=0; i<n-1; i++){
+            maxDiff = max(maxDiff, nums[i+1] - nums[i]);
         }
-        return maxDif;
+        return maxDiff;
     }
 };
