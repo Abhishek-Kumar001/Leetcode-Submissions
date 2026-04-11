@@ -1,21 +1,20 @@
 class Solution {
 public:
     vector<int> twoSum(vector<int>& numbers, int target) {
-        int left = 0;
-        int right = numbers.size() - 1;
+        vector<int> ans(2, 0);
 
-        while (left < right) {
-            int total = numbers[left] + numbers[right];
+        int n = numbers.size();
+        int s = 0, e=n-1;
 
-            if (total == target) {
-                return {left + 1, right + 1};
-            } else if (total > target) {
-                right--;
-            } else {
-                left++;
-            }
+        while(s<e){
+            int sum = numbers[s] + numbers[e];
+            if(sum == target){
+                ans[0] = s+1;
+                ans[1] = e+1;
+                return ans;
+            }else if(sum > target) e--;
+            else s++;
         }
-        return {-1, -1}; // If no solution is found        
+        return ans;
     }
 };
-
