@@ -1,38 +1,24 @@
 class Solution {
+    int helper(int ind, vector<int> &coins, int require, vector<vector<int>> &dp){
+        if(ind == coins.size()) return 1e8;
+        if(require == 0) return 0;
+
+        if(coins[ind] > require) return 1e8;
+
+        if(dp[ind][require] != -1) return dp[ind][require];
+
+
+        int result = 1 + helper(ind, coins, require-coins[ind], dp);
+        int result2 = 0 + helper(ind+1, coins, require, dp);
+        return dp[ind][require] = min(result, result2);
+    }
 public:
     int coinChange(vector<int>& coins, int amount) {
-        // striver code
-
         int n = coins.size();
-        vector<vector<int>> dp(n, vector<int>(amount+1, 0));
-    
-        for(int i=1; i<=amount; i++){
-            if( i % coins[0] == 0){
-                dp[0][i] = i / coins[0];
-            }
-            else{
-                dp[0][i] = 1e9;
-            }
-        }
-
-        for(int i=1; i<n; i++){
-            for(int amt =1; amt<= amount; amt++ ){
-                 // take 
-                 int take = INT_MAX;
-                 if( amt >= coins[i]){
-                     take = 1 + dp[i][amt - coins[i]];
-                 }
-
-                 //not take 
-                 int notTake  = dp[i-1][amt];
-
-                
-                dp[i][amt] = min( take , notTake );
-            }
-        }
-
-        int ans = dp[n-1][amount];
-        if( ans >=  1e9 ) ans = -1; 
-        return ans;
+        sort(coins.begin(), coins.end());
+        vector<vector<int>> dp(n, vector<int>(amount+1, -1));
+        int result =  helper(0, coins, amount, dp);;
+        if(result == 1e8) return -1;
+        return result;
     }
 };
