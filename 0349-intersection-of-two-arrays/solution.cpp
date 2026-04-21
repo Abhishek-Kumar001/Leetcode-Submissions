@@ -1,77 +1,20 @@
 class Solution {
 public:
     vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
-        sort(nums1.begin(), nums1.end());
-        sort(nums2.begin(), nums2.end());
+        // 1st way is sort both and find the common elements
 
-        vector<int> ans;
-        int n = nums1.size(), m = nums2.size();
-        int i = 0, j = 0;
-        while (i < n && j < m) {
-            while (i > 0 && i < n && nums1[i] == nums1[i - 1]) {
-                i++;
-            
-            }
-            while (j > 0 && j < m && nums2[j] == nums2[j - 1]) {
-                j++;
-            }
+        //2nd way is use map, put all the elements of arr1 in map and then treverse arr2 and find the 
+        // check that element in mpp
 
-            if (i < n && j < m) {
-                if (nums1[i] == nums2[j]) {
-                    ans.push_back(nums1[i]);
-                    i++;
-                    j++;
-                } else if (nums1[i] < nums2[j]) {
-                    i++;
-                } else {
-                    j++;
-                }
-            }
+        unordered_map<int, int> mpp;
+        for(int x : nums1) mpp[x]++;
+
+        set<int> st;
+        for(int x : nums2){
+            if(mpp[x]) st.insert(x);
         }
+
+        vector<int> ans(st.begin(), st.end());
         return ans;
     }
 };
-
-
-
-
-
-// class Solution {
-// public:
-//     vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
-//         // Sort both arrays
-//         sort(nums1.begin(), nums1.end());
-//         sort(nums2.begin(), nums2.end());
-
-//         vector<int> ans;
-//         int n = nums1.size(), m = nums2.size();
-//         int i = 0, j = 0;
-
-//         while (i < n && j < m) {
-//             // Skip duplicates in nums1
-//             while (i > 0 && i < n && nums1[i] == nums1[i - 1]) {
-//                 i++;
-//             }
-//             // Skip duplicates in nums2
-//             while (j > 0 && j < m && nums2[j] == nums2[j - 1]) {
-//                 j++;
-//             }
-
-//             // Check if indices are still in range after skipping duplicates
-//             if (i < n && j < m) {
-//                 if (nums1[i] == nums2[j]) {
-//                     ans.push_back(nums1[i]);
-//                     i++;
-//                     j++;
-//                 } else if (nums1[i] < nums2[j]) {
-//                     i++;
-//                 } else {
-//                     j++;
-//                 }
-//             }
-//         }
-
-//         return ans;
-//     }
-// };
-
