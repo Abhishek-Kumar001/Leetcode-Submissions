@@ -1,49 +1,49 @@
 class Solution {
     public int findTheCity(int n, int[][] edges, int distanceThreshold) {
         int dist[][] = new int[n][n];
-        for( int i=0; i<n; i++){
-           for(int j=0; j<n; j++){
-               dist[i][j] = Integer.MAX_VALUE;
-               if( i == j) dist[i][j] = 0;
-           }
+
+        for(int i=0; i<n; i++){
+            for(int j=0; j<n; j++){
+                if(i == j)  dist[i][i] = 0;
+                else dist[i][j] = (int)1e8;
+            }
         }
-        
-        int m = edges.length;
-        for(int i=0; i<m; i++){
-            int u= edges[i][0];
-            int v= edges[i][1];
-            int wt = edges[i][2];
-            
-            dist[u][v] = wt;
-            dist[v][u] = wt;
+
+        for(int i=0; i<edges.length; i++){
+            int src = edges[i][0];
+            int des = edges[i][1];
+            int cost = edges[i][2];
+
+            dist[src][des] = cost;
+            dist[des][src] = cost;
         }
-        
-        // Floyd-Warshall algorithm to calculate all pair shortest paths
-        for(int via=0; via<n; via++){
+
+        for(int via = 0; via < n; via++){
             for(int i=0; i<n; i++){
+                if(via == i) continue;
                 for(int j=0; j<n; j++){
-                   if( via == i) continue;
-                   if(dist[i][via] != Integer.MAX_VALUE  && dist[via][j] != Integer.MAX_VALUE){
-                       dist[i][j] = Math.min(dist[i][j], (dist[i][via] + dist[via][j]) );
-                   }
+                    if(i == j) continue;
+                    if(dist[i][via] != 1e8 && dist[via][j] != 1e8) 
+                       dist[i][j] = Math.min(dist[i][j], dist[i][via] + dist[via][j]);
                 }
             }
         }
         
-        int ansCity = n;
-        int minNoOfNeighbours = Integer.MAX_VALUE;
+        int ansCity = 0;
+        int neighboursCityCnt = n+1;
         for(int i=0; i<n; i++){
-            int noOfNeighbours = 0;
+            int cnt = 0;
             for(int j=0; j<n; j++){
-               if(dist[i][j] != Integer.MAX_VALUE  && dist[i][j] <= distanceThreshold){
-                   noOfNeighbours++;
-               }
+                if(dist[i][j] <= distanceThreshold){
+                    cnt++;
+                }
             }
-            if( noOfNeighbours <= minNoOfNeighbours){
-                minNoOfNeighbours = noOfNeighbours;
+            if(cnt <= neighboursCityCnt){
                 ansCity = i;
+                neighboursCityCnt = cnt;
             }
         }
+
         return ansCity;
     }
 }
