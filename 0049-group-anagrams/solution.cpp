@@ -1,33 +1,37 @@
 class Solution {
-public:
-    vector<vector<string>> groupAnagrams(vector<string>& strs) {
-        int n = strs.size();
+    string sortS(string s) {
+        int freq[26] = {0};
 
-        vector<string> strCopy(strs);
-        for(int i=0; i<n; i++)
-           sort(strCopy[i].begin(), strCopy[i].end());
+        for (char c : s)
+            freq[c - 97]++;
 
-
-        vector<vector<string>> ans;
-        vector<int> visited(n, 0);
-
-        for(int i=0; i<n; i++){
-            if( !visited[i] ){
-                visited[i] = 1;
-                vector<string> temp;
-                temp.push_back(strs[i]);
-
-                for(int j=i+1; j<n; j++){
-                    if(strCopy[i] == strCopy[j]){
-                        visited[j] = 1;
-                        temp.push_back(strs[j]);
-                    }
-                }
-
-                ans.push_back(temp);
+        string sorted_s = "";
+        for (int i = 0; i < 26; i++) {
+            while (freq[i]) {
+                sorted_s += (char)(i + 97); // Fix 1: use i, not freq[i]
+                freq[i]--;
             }
         }
+        return sorted_s;
+    }
 
-        return ans;
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        unordered_map<string, vector<string>> mpp;
+
+        for (string s : strs) {
+            string s_sorted = sortS(s);
+            mpp[s_sorted].push_back(s);
+        }
+
+        vector<vector<string>> ans;
+        for (auto v : mpp) {
+            vector<string> temp;
+            for (string x : v.second) { // Fix 2: v.second, not mpp[v]
+                temp.push_back(x);
+            }
+            ans.push_back(temp);
+        }
+        return ans; // Fix 3: missing return
     }
 };
