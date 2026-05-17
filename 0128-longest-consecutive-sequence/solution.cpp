@@ -10,9 +10,7 @@ public:
         int maxi = 0, count = 0;
         for(auto it : mpp){
             cout<<it.first<<"-"<<it.second<<", ";
-            if(prev == INT_MIN){
-                count  = 1;
-            }else if(it.first == prev+1){
+            if(prev != INT_MIN && it.first == prev+1){
                 count++;
             }else{
                 count = 1;
