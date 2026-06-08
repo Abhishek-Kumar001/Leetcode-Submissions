@@ -14,9 +14,9 @@ public:
     int countNodes(TreeNode* root) {
         if(root == NULL) return 0;
 
-        int leftCnt = countNodes(root->left);
-        int rightCnt = countNodes(root->right);
+        int left = countNodes(root->left);
+        int right = countNodes(root->right);
 
-        return leftCnt + rightCnt + 1;
+        return left + right + 1;
     }
 };
