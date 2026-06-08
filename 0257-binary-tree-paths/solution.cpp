@@ -10,31 +10,33 @@
  * };
  */
 class Solution {
-    void helper(TreeNode* root, vector<string> &ans, string temp) {
-        if (root == nullptr) return;
-
-        // Add current node value
-        temp += to_string(root->val);
-
-        // If leaf node, store path
-        if (root->left == nullptr && root->right == nullptr) {
+    void solve(TreeNode* root, string temp, vector<string> &ans){
+        if(root == NULL) return;
+        if(root->left == NULL && root->right == NULL){
+            temp += "->";
+            temp += to_string(root->val);
             ans.push_back(temp);
-            return;
+            return ;
         }
 
-        // Continue path
         temp += "->";
-
-        helper(root->left, ans, temp);
-        helper(root->right, ans, temp);
+        temp += to_string(root->val);
+        solve(root->left, temp, ans);
+        solve(root->right, temp, ans);
     }
-
 public:
     vector<string> binaryTreePaths(TreeNode* root) {
         vector<string> ans;
-        if (root == nullptr) return ans;
+        if(root == NULL) return ans;
 
-        helper(root, ans, "");
+        string temp = (to_string(root->val));
+        if(root->left == NULL && root->right == NULL){
+            ans.push_back(temp);
+            return ans;
+        }
+
+        solve(root->left, temp, ans);
+        solve(root->right, temp, ans);
         return ans;
     }
 };
