@@ -10,19 +10,21 @@
  * };
  */
 class Solution {
-    void helper(vector<int> &ans, TreeNode* root, int i){
+    void helper(TreeNode* root, vector<int> &ans, int level){
         if(root == NULL) return ;
 
-        if(i == ans.size()) ans.push_back(root->val);
+        if(ans.size() == level){
+            ans.push_back(root->val);
+        }
 
-        if(root->right) helper(ans, root->right, i+1);
-        if(root->left) helper(ans, root->left, i+1);
-        return ;
+        helper(root->right, ans, level+1);
+        helper(root->left, ans, level+1);
     }
 public:
     vector<int> rightSideView(TreeNode* root) {
         vector<int> ans;
-        helper(ans, root, 0);
+        int level = 0;
+        helper(root, ans, level);
         return ans;
     }
 };
