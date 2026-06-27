@@ -11,31 +11,22 @@
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        // create a ans link list with a dummy node
-        ListNode* ansHead = new ListNode(-1);
-        ListNode* ansTemp = ansHead;
+        ListNode* temp = new ListNode(-1);
+        ListNode* Head = temp;
 
-        while(list1 != NULL  && list2 != NULL){
+        while(list1 != NULL && list2 != NULL){
             if(list1->val < list2->val){
-                ansTemp->next = list1;
+                temp->next = list1;
                 list1 = list1->next;
             }else{
-                ansTemp->next = list2;
+                temp->next = list2;
                 list2 = list2->next;
             }
-            ansTemp = ansTemp->next;
-        }
-        while(list1 != NULL){
-            ansTemp->next = list1;
-            ansTemp = ansTemp->next;
-            list1 = list1->next;
-        }
-        while(list2 != NULL){
-            ansTemp->next = list2;
-            ansTemp = ansTemp->next;
-            list2 = list2->next;
+            temp = temp->next;
         }
 
-        return ansHead->next;
+        temp->next = list1 == NULL ? list2 : list1;
+
+        return Head->next;
     }
 };
