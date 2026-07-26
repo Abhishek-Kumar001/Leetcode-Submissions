@@ -8,19 +8,16 @@ public:
         for(int i=0; i<s.length(); i++){
             char ch = s[i];
 
-            if(charInd[ch] == -1){
-                charInd[ch] = i;
-            }else{
+            if(charInd[ch] != -1){
+                // i.e this character is already presernt in mpp
                 int firstOccInd = charInd[ch];
                 if(firstOccInd < start){
                     // do nothing
                 }else{
                     start = firstOccInd+1;
                 }
-
-                charInd[ch] = i;
             }
-
+            charInd[ch] = i;
             longestSubstringLen = max(longestSubstringLen, i-start+1);
         }
 
