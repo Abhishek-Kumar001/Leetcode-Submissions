@@ -1,54 +1,65 @@
 class Solution {
 public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-        int n1 = nums1.size();
-        int n2 = nums2.size();
+        int s1 = nums1.size();
+        int s2 = nums2.size();
 
-        int n3 = n1 + n2;
-        int median1 = n3 / 2;
-        int median2 = n3 / 2;
-        if(n3 % 2 == 0){
-            median2 = n3/2 - 1;
-        }
+        int totalLen = s1 + s2;
+        int m1Ind = totalLen / 2;
+        int m2Ind = totalLen / 2;
 
-        double first = INT_MIN, second = INT_MIN;
+        if (totalLen % 2 == 0)
+            m2Ind = m1Ind - 1;
 
-        int i=0, j=0, cnt=0;
-        while(i < n1 && j <n2){
-            if(nums1[i] < nums2[j]){
-                if(cnt == median1) first = nums1[i];
-                if(cnt == median2) second = nums1[i];
+        double m1 = INT_MIN;
+        double m2 = INT_MIN;
+
+        int i = 0, j = 0, cnt = -1;
+
+        while (i < s1 && j < s2) {
+            cnt++;
+            if (nums1[i] < nums2[j]) {
+                if (cnt == m1Ind)
+                    m1 = nums1[i];
+                if (cnt == m2Ind)
+                    m2 = nums1[i];
                 i++;
-            }else{
-                if(cnt == median1) first = nums2[j];
-                if(cnt == median2) second = nums2[j];
+            } else {
+                if (cnt == m1Ind)
+                    m1 = nums2[j];
+                if (cnt == m2Ind)
+                    m2 = nums2[j];
                 j++;
             }
 
-            cnt++;
-
-            if(first != INT_MIN && second != INT_MIN) return (first + second)/2;
+            if (m1 != INT_MIN && m2 != INT_MIN)
+                return (m1 + m2) / 2;
         }
 
-        while(i < n1){
-            if(cnt == median1) first = nums1[i];
-            if(cnt == median2) second = nums1[i];
+        while (i < s1) {
+            cnt++;
+            if (cnt == m1Ind)
+                m1 = nums1[i];
+            if (cnt == m2Ind)
+                m2 = nums1[i];
             i++;
-            cnt++;
 
-            if(first != INT_MIN && second != INT_MIN) return (first + second)/2;
+            if (m1 != INT_MIN && m2 != INT_MIN)
+                return (m1 + m2) / 2;
         }
 
-        while(j < n2){
-            if(cnt == median1) first = nums2[j];
-            if(cnt == median2) second = nums2[j];
+        while (j < s2) {
+            cnt++;
+            if (cnt == m1Ind)
+                m1 = nums2[j];
+            if (cnt == m2Ind)
+                m2 = nums2[j];
             j++;
-            cnt++;
 
-            if(first != INT_MIN && second != INT_MIN) return (first + second)/2;
-
+            if (m1 != INT_MIN && m2 != INT_MIN)
+                return (m1 + m2) / 2;
         }
 
-        return (first + second)/2; 
+        return -1; // just for the compiler
     }
 };
