@@ -2,23 +2,28 @@ class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
         int start = 0;
-        unordered_map<char, int> mpp;
-        int maxLength = 0;
+        int longestSubstringLen = 0;
+        vector<int> charInd(256, -1);
 
         for(int i=0; i<s.length(); i++){
             char ch = s[i];
-            if(mpp.find(ch) != mpp.end()){
-                // it means it is this char is already there 
-                int occInd = mpp[ch];
-                if(occInd < start)  maxLength = max(maxLength , i-start+1); // do  nothing becuase we are already ahead 
-                else start = occInd +1;
+
+            if(charInd[ch] == -1){
+                charInd[ch] = i;
             }else{
-                // this char is coming for the 1st time
-                maxLength = max(maxLength , i-start+1);
+                int firstOccInd = charInd[ch];
+                if(firstOccInd < start){
+                    // do nothing
+                }else{
+                    start = firstOccInd+1;
+                }
+
+                charInd[ch] = i;
             }
 
-            mpp[ch] = i;
+            longestSubstringLen = max(longestSubstringLen, i-start+1);
         }
-        return maxLength;
+
+        return longestSubstringLen;
     }
 };
