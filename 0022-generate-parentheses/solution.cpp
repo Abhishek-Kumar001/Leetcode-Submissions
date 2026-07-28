@@ -1,27 +1,28 @@
 class Solution {
-    void helper(int open, int close, string temp, vector<string> &ans){
+    void solve(int open, int close, string temp, vector<string> &ans){
+        //base case 
         if(open == 0 && close == 0){
             ans.push_back(temp);
             return;
         }
 
         if(open){
-            temp += '(';
-            helper(open-1, close, temp, ans);
-            temp = temp.substr(0, temp.size()-1); // we can use temp.pop_back() also
+            temp.push_back('(');
+            solve(open-1, close, temp, ans);
+            temp.pop_back();
         }
         if(close > open){
-            temp += ')';
-            helper(open, close-1, temp, ans);
+            temp.push_back(')');
+            solve(open, close-1, temp, ans);
             temp.pop_back();
         }
     }
 public:
     vector<string> generateParenthesis(int n) {
         vector<string> ans;
-        string temp = "";
+        string temp= "";
 
-        helper(n, n, temp, ans);
+        solve(n, n, temp, ans);
         return ans;
     }
 };
