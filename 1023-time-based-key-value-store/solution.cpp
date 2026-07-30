@@ -7,7 +7,7 @@ public:
     }
     
     void set(string key, string value, int timestamp) {
-        mpp[key][timestamp] = value;
+        mpp[key][timestamp] = value; // vvi not mpp[key] = {timestamp, value}
     }
     
     string get(string key, int timestamp) {
